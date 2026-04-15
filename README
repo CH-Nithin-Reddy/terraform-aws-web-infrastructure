@@ -1,0 +1,186 @@
+# 🚀 Terraform AWS Web Infrastructure
+
+> Highly Available AWS Web Infrastructure deployed with Terraform — spanning multiple Availability Zones with automated EC2 setup and Application Load Balancing.
+
+---
+
+## 📌 Architecture Overview
+
+```
+Internet
+   │
+   ▼
+Application Load Balancer (ALB)
+   │              │
+   ▼              ▼
+EC2 - Server 1   EC2 - Server 2
+(AZ-1, Nginx)    (AZ-2, Nginx)
+```
+
+Traffic enters through the **ALB**, which distributes requests across two EC2 instances in separate Availability Zones — ensuring **high availability and fault tolerance**.
+
+---
+
+## 🏗️ Infrastructure Components
+
+### Networking
+- Custom **VPC**
+- 2 **Public Subnets** across separate Availability Zones
+- **Internet Gateway**
+- **Route Tables** and Associations
+
+### Compute
+- 2 **EC2 Instances** (Ubuntu)
+- **Nginx** installed automatically via User Data scripts
+- Portfolio-style web pages served per instance
+
+### Load Balancing
+- **Application Load Balancer (ALB)**
+- **Target Group** with health checks
+- **HTTP Listener** on Port 80
+
+### Storage
+- **Amazon S3 Bucket**
+
+### Security
+- Security Group with rules for:
+  - SSH (Port 22)
+  - HTTP (Port 80)
+  - All Outbound Traffic
+
+---
+
+## 📁 Project Structure
+
+```
+terraform-aws-web-infrastructure/
+├── main.tf          # Core infrastructure resources
+├── provider.tf      # AWS provider configuration
+├── variables.tf     # Input variables
+├── userdata.sh      # Bootstrap script — Server 1
+├── userdata1.sh     # Bootstrap script — Server 2
+└── README.md
+```
+
+---
+
+## ⚙️ Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| Terraform | Infrastructure as Code |
+| AWS EC2 | Virtual Servers |
+| AWS VPC | Networking |
+| AWS ALB | Load Balancing |
+| AWS S3 | Object Storage |
+| Ubuntu + Nginx | Web Server |
+| GitHub | Version Control |
+
+---
+
+## 🚀 Deployment Guide
+
+### Prerequisites
+- [Terraform](https://developer.hashicorp.com/terraform/downloads) installed
+- AWS CLI configured (`aws configure`)
+- Valid AWS credentials with EC2/VPC/ALB/S3 permissions
+
+---
+
+### Step 1 — Clone the Repository
+
+```bash
+git clone https://github.com/CH-Nithin-Reddy/terraform-aws-web-infrastructure.git
+cd terraform-aws-web-infrastructure
+```
+
+### Step 2 — Initialize Terraform
+
+```bash
+terraform init
+```
+
+### Step 3 — Validate Configuration
+
+```bash
+terraform validate
+```
+
+### Step 4 — Preview Changes
+
+```bash
+terraform plan
+```
+
+### Step 5 — Deploy Infrastructure
+
+```bash
+terraform apply
+```
+
+Type `yes` when prompted. Terraform will provision all AWS resources.
+
+### Step 6 — Access the Application
+
+After deployment, Terraform outputs the ALB DNS:
+
+```
+loadbalancerdns = http://myalb-123456789.us-east-1.elb.amazonaws.com
+```
+
+Open the URL in your browser. Refreshing the page will alternate between **Server 1** and **Server 2**, confirming load balancing is working.
+
+---
+
+## 🧹 Destroy Infrastructure
+
+> ⚠️ Always destroy resources after testing to avoid unexpected AWS charges.
+
+```bash
+terraform destroy
+```
+
+Type `yes` when prompted.
+
+---
+
+## ✅ Features Demonstrated
+
+- ✔ Infrastructure as Code (Terraform)
+- ✔ High Availability across multiple AZs
+- ✔ Application Load Balancing
+- ✔ Automated EC2 bootstrapping via User Data
+- ✔ Security Group configuration
+- ✔ Remote state and version control via GitHub
+
+---
+
+## 🎯 Key Learnings
+
+- Terraform workflow: `init → validate → plan → apply → destroy`
+- AWS Networking fundamentals (VPC, Subnets, IGW, Route Tables)
+- Application Load Balancer setup and Target Group configuration
+- EC2 automation using User Data scripts
+- High Availability architecture design principles
+
+---
+
+## 🔭 Planned Improvements
+
+- [ ] HTTPS with ACM SSL Certificate
+- [ ] Auto Scaling Group for dynamic scaling
+- [ ] Static website hosting on S3
+- [ ] CI/CD pipeline integration
+- [ ] CloudWatch monitoring and alerting
+- [ ] Remote Terraform state with S3 + DynamoDB
+
+---
+
+## 👨‍💻 Author
+
+**Nithin Reddy**
+[github.com/CH-Nithin-Reddy](https://github.com/CH-Nithin-Reddy)
+
+---
+
+> ⭐ If you found this project useful, consider giving it a star on GitHub!
