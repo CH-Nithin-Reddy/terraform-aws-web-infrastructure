@@ -1,29 +1,60 @@
 #!/bin/bash
 
-# Update packages
-apt-get update -y
+apt update -y
+apt install nginx -y
 
-# Install Nginx
-apt-get install nginx -y
-
-# Start Nginx
 systemctl start nginx
-
-# Enable Nginx
 systemctl enable nginx
 
-# Create Web Page for Instance 1
 cat <<EOF > /var/www/html/index.html
 <!DOCTYPE html>
 <html>
 <head>
-<title>Server 1</title>
+<title>Nithin Portfolio - Server 1</title>
+
+<style>
+body {
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+
+.card {
+    background:#1e293b;
+    padding:20px;
+    margin:20px;
+    border-radius:10px;
+}
+
+.server {
+    color:#38bdf8;
+    font-size:24px;
+    font-weight:bold;
+}
+</style>
+
 </head>
+
 <body>
-<h1>Terraform Load Balancer Project</h1>
-<h2>This is Server 1</h2>
-<h3>Hostname:</h3>
-<p>$(hostname)</p>
+
+<h1>Nithin Reddy</h1>
+
+<p class="server">
+ Served from Server 1
+</p>
+
+<div class="card">
+<h2>Terraform AWS Infrastructure Project</h2>
+
+<p>
+This portfolio is deployed using Terraform on AWS
+with Application Load Balancer and EC2 instances.
+</p>
+
+</div>
+
 </body>
+
 </html>
 EOF
